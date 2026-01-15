@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MSFS Overlay</title>
+  <style>
+    body { margin: 0; background: transparent; font-family: Arial, sans-serif; }
+    .box {
+      display: inline-block;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.55);
+      color: white;
+      border-radius: 12px;
+      font-size: 20px;
+      line-height: 1.35;
+      min-width: 340px;
+    }
+    .row { display: flex; justify-content: space-between; gap: 18px; white-space: nowrap; }
+    .label { opacity: 0.75; }
+    .value { font-weight: 600; }
+    .title { font-size: 18px; opacity: 0.85; margin-bottom: 8px; }
+    .sep { height: 10px; }
+    .muted { opacity: 0.7; font-size: 14px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="title">
+      <span id="callsign">--</span> · <span id="route">--- → ---</span>
+    </div>
+
+    <div class="row"><span class="label">IAS</span><span class="value"><span id="ias">--</span> kt</span></div>
+    <div class="row"><span class="label">ALT</span><span class="value"><span id="alt">--</span> ft</span></div>
+    <div class="row"><span class="label">VS</span><span class="value"><span id="vs">--</span> fpm</span></div>
+    <div class="row"><span class="label">HDG</span><span class="value"><span id="hdg">--</span>°</span></div>
+    <div class="row"><span class="label">GS</span><span class="value"><span id="gs">--</span> kt</span></div>
+
+    <div class="sep"></div>
+
+    <div class="row"><span class="label">OAT</span><span class="value"><span id="oat">--</span> °C</span></div>
+    <div class="row"><span class="label">TAT</span><span class="value"><span id="tat">--</span> °C</span></div>
+    <div class="row"><span class="label">WIND</span><span class="value"><span id="wind">--</span></span></div>
+
+    <div class="sep"></div>
+
+    <div class="row"><span class="label">NEXT</span><span class="value"><span id="wp">--</span></span></div>
+    <div class="row"><span class="label">DTG</span><span class="value"><span id="dtg">--</span> nm</span></div>
+    <div class="row"><span class="label">ETE</span><span class="value"><span id="ete">--</span></span></div>
+
+    <div class="muted" id="sb_status"></div>
+  </div>
+
+  <script>
+    const el = (id) => document.getElementById(id);
+
+    function fmt(n, digits = 0) {
+      if (n === null || n === undefined || Number.isNaN(n)) return "--";
+      return Number(n).toFixed(digits);
+    }
+
+    function fmtWind(dir, spd) {
+      if (dir == null || spd == null) return "--";
+      return `${Math.round(Number(dir))}° / ${Math.round(Number(spd))} kt`;
+    }
+
+    function safeStr(v, fallback="--") {
+      if (v === null || v === undefined) return fallback;
+      const s = String(v).trim();
+      return s.length ? s : fallback;
+    }
+
+    async function tick() {
+      try {
+        const r = await fetch("/data", { cache: "no-store" });
+        const d = await r.json();
+
+        // --- SimBrief (inside /data as d.simbrief) ---
+        const sb = d.simbrief || {};
+        const cs = safeStr(sb.callsign, "--");
+        const dep = safeStr(sb.dep_icao, "---");
+        const arr = safeStr(sb.arr_icao, "---");
+
+        el("callsign").textContent = cs;
+        el("route").textContent =
+          (dep === "---" || arr === "---") ? "" : `${dep} → ${arr}`;
+
+        // status line
+        if (d.simbrief_ok) {
+          el("sb_status").textContent = "";
+        } else {
+          el("sb_status").textContent = safeStr(d.simbrief_error, "SimBrief not available");
+        }
+
+        // --- Live ---
+        el("ias").textContent = fmt(d.ias_kt, 0);
+        el("alt").textContent = fmt(d.alt_ft, 0);
+        el("vs").textContent  = fmt(d.vs_fpm, 0);
+        el("hdg").textContent = (d.hdg_act == null) ? "--" : fmt(d.hdg_act, 0);
+        el("gs").textContent  = fmt(d.gs_kt, 0);
+
+        el("oat").textContent = (d.oat_c == null) ? "--" : fmt(d.oat_c, 0);
+        el("tat").textContent = (d.tat_c == null) ? "--" : fmt(d.tat_c, 0);
+
+        el("wind").textContent = fmtWind(d.wind_dir_true, d.wind_spd_kt);
+
+        el("wp").textContent  = safeStr(d.wp_next, "--");
+        el("dtg").textContent = (d.wp_dist_nm == null) ? "--" : fmt(d.wp_dist_nm, 1);
+        el("ete").textContent = safeStr(d.wp_ete, "--");
+
+      } catch (e) {
+        // ignore to keep overlay stable
+      }
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
