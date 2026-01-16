@@ -1,0 +1,9 @@
+{
+  "name": "Lufthansa",
+  "colors": {
+    "primary": "#05164D",
+    "secondary": "#FFCC00",
+    "text": "#FFFFFF"
+  },
+  "logo": "logo.png"
+}

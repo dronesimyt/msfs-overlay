@@ -1,7 +1,9 @@
 {
   "name": "Default",
-  "primary": "#000000",
-  "secondary": "#000000",
-  "text": "#FFFFFF",
+  "colors": {
+    "primary": "#ffffff",
+    "secondary": "#999999",
+    "text": "#ffffff"
+  },
   "logo": "logo.png"
 }
