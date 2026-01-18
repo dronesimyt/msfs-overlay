@@ -4,126 +4,383 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MSFS Overlay</title>
+
     <style>
       :root {
-        --primary: #ffffff;
-        --secondary: #999999;
-        --text: #ffffff;
+        --primary: #1b3a8a; /* theme primary */
+        --secondary: #f5c400; /* theme secondary */
+        --text: #ffffff; /* theme text */
+        --stroke: rgba(255, 255, 255, 0.16);
       }
+
       body {
         margin: 0;
         background: transparent;
-        font-family: Arial, sans-serif;
+        font-family:
+          Arial,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          sans-serif;
         color: var(--text);
+
+        /* Center the overlay on screen */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 14px;
+        box-sizing: border-box;
       }
-      .box {
-        display: inline-block;
-        padding: 14px 16px;
-        background: rgba(0, 0, 0, 0.55);
-        border: 2px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        font-size: 20px;
-        line-height: 1.35;
-        min-width: 360px;
-      }
-      .top {
+
+      /* Overall top bar */
+      .bar {
+        width: 1200px;
+        max-width: calc(100vw - 28px);
+
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
+        gap: 14px;
+        padding: 12px 16px;
+
+        border-radius: 18px;
+        border: 1px solid var(--stroke);
+
+        /* ✅ single solid color (no gradient) */
+        background: color-mix(in srgb, var(--primary) 78%, transparent);
+
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        /* Keep it one line */
+        flex-wrap: nowrap;
+
+        /* Nothing can visually escape the rounded bar */
+        overflow: hidden;
       }
-      .logo {
-        width: 34px;
-        height: 34px;
+
+      /* Allow children to shrink properly */
+      .bar,
+      .left,
+      .center,
+      .right,
+      .idBlock,
+      .bigLine,
+      .routeLine,
+      .metrics,
+      .metric,
+      .tripRow {
+        min-width: 0;
+      }
+
+      /* Left badge */
+      .left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 0 0 auto;
+      }
+
+      .logoWrap {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+
+        /* no background so it doesn't tint the logo */
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+
+        overflow: hidden;
+        flex: 0 0 auto;
+      }
+
+      /* Make logo fill the circle better */
+      .logoWrap img {
+        width: 42px;
+        height: 42px;
         object-fit: contain;
         display: none;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
       }
-      .titleline {
-        font-size: 18px;
-        opacity: 0.9;
-      }
-      .accent {
-        color: var(--primary);
-        font-weight: 700;
-      }
-      .row {
+
+      .idBlock {
         display: flex;
-        justify-content: space-between;
-        gap: 18px;
+        flex-direction: column;
+        gap: 3px;
+        line-height: 1.05;
+      }
+
+      .bigLine {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
         white-space: nowrap;
       }
-      .label {
-        opacity: 0.75;
+
+      .aircraft {
+        font-size: 18px;
+        opacity: 0.92;
+        white-space: nowrap;
       }
-      .value {
-        font-weight: 650;
+
+      .callsign {
+        font-size: 18px;
+        color: var(--secondary);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+        white-space: nowrap;
       }
-      .sep {
-        height: 10px;
-      }
-      .muted {
-        opacity: 0.75;
+
+      .routeLine {
         font-size: 14px;
-        margin-top: 8px;
+        opacity: 0.9;
+        display: flex;
+        gap: 8px;
+        white-space: nowrap;
       }
+
+      .routeTag {
+        color: color-mix(in srgb, var(--secondary) 80%, white);
+        font-weight: 800;
+        flex: 0 0 auto;
+      }
+
+      .routeVal {
+        font-weight: 800;
+        flex: 0 0 auto;
+      }
+
+      /* Center metrics block */
+      .center {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      /* ✅ 2 rows x 4 columns (so VS/OAT/TAT fit without hiding) */
+      .metrics {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        gap: 10px 12px;
+        align-items: center;
+      }
+
+      .metric {
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+        white-space: nowrap;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      .mLabel {
+        font-size: 12px;
+        opacity: 0.82;
+        color: color-mix(in srgb, var(--secondary) 85%, white);
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .mVal {
+        font-size: 14px;
+        font-weight: 900;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .mUnit {
+        font-size: 12px;
+        opacity: 0.85;
+        font-weight: 700;
+      }
+
+      /* Right block (DTG/ETA/ETE) */
+      .right {
+        flex: 0 0 220px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-left: 12px;
+        border-left: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .tripRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        white-space: nowrap;
+        min-width: 0;
+      }
+
+      .tripLabel {
+        font-size: 12px;
+        font-weight: 900;
+        color: color-mix(in srgb, var(--secondary) 85%, white);
+        letter-spacing: 0.35px;
+        flex: 0 0 auto;
+      }
+
+      .tripVal {
+        flex: 1 1 auto;
+        min-width: 0;
+        text-align: right;
+        font-size: 15px;
+        font-weight: 900;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .status {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-top: 2px;
+      }
+
       .warn {
         color: #ffd37a;
       }
+
+      /* If the view gets tighter, scale text a bit (no wrapping, no hiding) */
+      @media (max-width: 980px) {
+        .mLabel {
+          font-size: 11px;
+        }
+        .mVal {
+          font-size: 13px;
+        }
+        .mUnit {
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .mLabel {
+          font-size: 10px;
+        }
+        .mVal {
+          font-size: 12px;
+        }
+        .mUnit {
+          font-size: 10px;
+        }
+        .right {
+          flex-basis: 200px;
+        }
+        .tripVal {
+          font-size: 14px;
+        }
+        .aircraft,
+        .callsign {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .bar {
+          gap: 10px;
+          padding: 10px 12px;
+        }
+        .metrics {
+          gap: 8px 10px;
+        }
+      }
     </style>
   </head>
+
   <body>
-    <div class="box">
-      <div class="top">
-        <img id="logo" class="logo" alt="logo" />
-        <div class="titleline">
-          <span class="accent" id="callsign">--</span>
-          <span id="aircraft">--</span>
-          <span id="route">---</span>
+    <div class="bar">
+      <!-- LEFT -->
+      <div class="left">
+        <div class="logoWrap"><img id="logo" alt="logo" /></div>
+        <div class="idBlock">
+          <div class="bigLine">
+            <span class="aircraft" id="aircraft">----</span>
+            <span class="callsign" id="callsign">----</span>
+          </div>
+          <div class="routeLine">
+            <span class="routeTag">DEP:</span><span class="routeVal" id="dep">----</span>
+            <span class="routeTag">ARR:</span><span class="routeVal" id="arr">----</span>
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <span class="label">IAS</span><span class="value"><span id="ias">--</span> kt</span>
-      </div>
-      <div class="row">
-        <span class="label">ALT</span><span class="value"><span id="alt">--</span> ft</span>
-      </div>
-      <div class="row">
-        <span class="label">VS</span><span class="value"><span id="vs">--</span> fpm</span>
-      </div>
-      <div class="row">
-        <span class="label">HDG</span><span class="value"><span id="hdg">--</span>°</span>
-      </div>
-      <div class="row">
-        <span class="label">GS</span><span class="value"><span id="gs">--</span> kt</span>
+      <!-- CENTER -->
+      <div class="center">
+        <div class="metrics">
+          <!-- Row 1 -->
+          <div class="metric">
+            <span class="mLabel">ALT</span>
+            <span class="mVal" id="alt">--</span><span class="mUnit">ft</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">HDG</span>
+            <span class="mVal" id="hdg">--</span><span class="mUnit">°</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">IAS</span>
+            <span class="mVal" id="ias">--</span><span class="mUnit">kt</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">GS</span>
+            <span class="mVal" id="gs">--</span><span class="mUnit">kt</span>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="metric">
+            <span class="mLabel">VS</span>
+            <span class="mVal" id="vs">--</span><span class="mUnit">fpm</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">OAT</span>
+            <span class="mVal" id="oat">--</span><span class="mUnit">°C</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">TAT</span>
+            <span class="mVal" id="tat">--</span><span class="mUnit">°C</span>
+          </div>
+
+          <div class="metric">
+            <span class="mLabel">WIND</span>
+            <span class="mVal" id="wind">--</span>
+          </div>
+        </div>
       </div>
 
-      <div class="sep"></div>
+      <!-- RIGHT -->
+      <div class="right">
+        <div class="tripRow">
+          <span class="tripLabel">DTG</span>
+          <span class="tripVal" id="dtg">--</span>
+        </div>
+        <div class="tripRow">
+          <span class="tripLabel">ETA</span>
+          <span class="tripVal" id="eta">--</span>
+        </div>
+        <div class="tripRow">
+          <span class="tripLabel">ETE</span>
+          <span class="tripVal" id="ete">--</span>
+        </div>
 
-      <div class="row">
-        <span class="label">OAT</span><span class="value"><span id="oat">--</span> °C</span>
+        <div class="status" id="status"></div>
       </div>
-      <div class="row">
-        <span class="label">TAT</span><span class="value"><span id="tat">--</span> °C</span>
-      </div>
-      <div class="row">
-        <span class="label">WIND</span><span class="value"><span id="wind">--</span></span>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="row">
-        <span class="label">DTG</span><span class="value"><span id="dtg">--</span> nm</span>
-      </div>
-      <div class="row">
-        <span class="label">ETE</span><span class="value"><span id="ete">--</span></span>
-      </div>
-      <div class="row">
-        <span class="label">ETA</span><span class="value"><span id="eta">--</span></span>
-      </div>
-
-      <div class="muted" id="status"></div>
     </div>
 
     <script>
@@ -133,11 +390,13 @@
         if (n === null || n === undefined || Number.isNaN(n)) return "--";
         return Number(n).toFixed(digits);
       }
+
       function safeStr(v, fallback = "--") {
         if (v === null || v === undefined) return fallback;
         const s = String(v).trim();
         return s.length ? s : fallback;
       }
+
       function fmtWind(dir, spd) {
         if (dir == null || spd == null) return "--";
         return `${Math.round(Number(dir))}° / ${Math.round(Number(spd))} kt`;
@@ -150,8 +409,9 @@
 
           const theme = t.theme || {};
           const colors = theme.colors || {};
-          document.documentElement.style.setProperty("--primary", colors.primary || "#ffffff");
-          document.documentElement.style.setProperty("--secondary", colors.secondary || "#999999");
+
+          document.documentElement.style.setProperty("--primary", colors.primary || "#1b3a8a");
+          document.documentElement.style.setProperty("--secondary", colors.secondary || "#f5c400");
           document.documentElement.style.setProperty("--text", colors.text || "#ffffff");
 
           const logoUrl = t.logo_url;
@@ -163,7 +423,7 @@
             logo.style.display = "none";
           }
         } catch (e) {
-          // theme is optional; ignore failures
+          // theme optional
         }
       }
 
@@ -172,58 +432,51 @@
           const r = await fetch("/data", { cache: "no-store" });
           const d = await r.json();
 
-          // SimBrief fields
           const sb = d.simbrief || {};
-          const cs = safeStr(sb.callsign, "--");
-          const dep = safeStr(sb.dep_icao, "---");
-          const arr = safeStr(sb.arr_icao, "---");
 
-          el("callsign").textContent = cs;
+          el("callsign").textContent = safeStr(sb.callsign, "----");
+          el("dep").textContent = safeStr(sb.dep_icao, "----");
+          el("arr").textContent = safeStr(sb.arr_icao, "----");
 
-          // Aircraft ICAO (from SimConnect)
-          const ac = safeStr(d.aircraft_icao, "");
-          el("aircraft").textContent = ac ? `· ${ac}` : "";
+          // prefer simbrief aircraft if simconnect reports placeholder
+          const aircraftFromSb = sb.aircraft_icao;
+          const aircraftFromSim = d.aircraft_icao;
+          const aircraft =
+            aircraftFromSim && aircraftFromSim !== "TEXT" ? aircraftFromSim : aircraftFromSb;
+          el("aircraft").textContent = safeStr(aircraft, "----");
 
-          // DEP/ARR
-          el("route").textContent =
-            dep && arr && dep !== "---" && arr !== "---" ? `· ${dep} → ${arr}` : "";
-
-          // Live fields
-          el("ias").textContent = fmt(d.ias_kt, 0);
+          // Row 1
           el("alt").textContent = fmt(d.alt_ft, 0);
-          el("vs").textContent = fmt(d.vs_fpm, 0);
           el("hdg").textContent = d.hdg_act == null ? "--" : fmt(d.hdg_act, 0);
+          el("ias").textContent = fmt(d.ias_kt, 0);
           el("gs").textContent = fmt(d.gs_kt, 0);
 
+          // Row 2
+          el("vs").textContent = d.vs_fpm == null ? "--" : fmt(d.vs_fpm, 0);
           el("oat").textContent = d.oat_c == null ? "--" : fmt(d.oat_c, 0);
           el("tat").textContent = d.tat_c == null ? "--" : fmt(d.tat_c, 0);
           el("wind").textContent = fmtWind(d.wind_dir_true, d.wind_spd_kt);
 
-          // Destination-based DTG/ETE/ETA (computed in backend)
-          el("dtg").textContent = d.dtg_nm == null ? "--" : fmt(d.dtg_nm, 1);
-          el("ete").textContent = safeStr(d.ete_hhmm, "--");
-          el("eta").textContent = safeStr(d.eta_z, "--");
+          // Right trip block
+          el("dtg").textContent = d.dtg_nm == null ? "--" : `${fmt(d.dtg_nm, 0)} nm`;
+          el("eta").textContent = safeStr(d.eta_z || d.eta, "--");
+          el("ete").textContent = safeStr(d.ete_hhmm || d.ete, "--");
 
-          // Status line
+          // Status
           let status = "";
-          if (!d.simconnect_ok) {
-            status = `Sim not running / SimConnect not available`;
-            el("status").classList.add("warn");
-          } else {
-            el("status").classList.remove("warn");
-            if (!d.simbrief_ok) status = safeStr(d.simbrief_error, "SimBrief not available");
-          }
+          if (d && d.simconnect_ok === false) status = "SimConnect not available";
+          if (d && d.simbrief_ok === false)
+            status = safeStr(d.simbrief_error, "SimBrief not available");
           el("status").textContent = status;
+          el("status").classList.toggle("warn", !!status);
         } catch (e) {
-          // keep overlay stable
+          // keep overlay stable even if fetch fails
         }
       }
 
-      // initial theme + periodic refresh (in case the flight changes)
       loadTheme();
       setInterval(loadTheme, 15000);
 
-      // poll sim data every 1000ms
       tick();
       setInterval(tick, 1000);
     </script>

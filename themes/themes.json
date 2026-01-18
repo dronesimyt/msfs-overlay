@@ -1,0 +1,172 @@
+{
+  "default": {
+    "name": "Default",
+    "colors": {
+      "primary": "#111827",
+      "secondary": "#9CA3AF",
+      "text": "#FFFFFF"
+    },
+    "logo": {
+      "light": null,
+      "dark": null
+    }
+  },
+  "themes": {
+    "DLH": {
+      "name": "Lufthansa",
+      "colors": {
+        "primary": "#05164D",
+        "secondary": "#FFCC00",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "EWG": {
+      "name": "Eurowings",
+      "colors": {
+        "primary": "#9a0040",
+        "secondary": "#0077ff",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "BAW": {
+      "name": "British Airways",
+      "colors": {
+        "primary": "#0035AD",
+        "secondary": "#CC3333",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "DAL": {
+      "name": "Delta Air Lines",
+      "colors": {
+        "primary": "#c20020",
+        "secondary": "#0A1F44",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "UAL": {
+      "name": "United Airlines",
+      "colors": {
+        "primary": "#1414D4",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "AAL": {
+      "name": "American Airlines",
+      "colors": {
+        "primary": "#0D73B1",
+        "secondary": "#B61F23",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "UAE": {
+      "name": "Emirates",
+      "colors": {
+        "primary": "#D71920",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "THY": {
+      "name": "Turkish Airlines",
+      "colors": {
+        "primary": "#E30A17",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "RYR": {
+      "name": "Ryanair",
+      "colors": {
+        "primary": "#073590",
+        "secondary": "#F1C933",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "EZY": {
+      "name": "easyJet",
+      "colors": {
+        "primary": "#FF6600",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "AFR": {
+      "name": "Air France",
+      "colors": {
+        "primary": "#042454",
+        "secondary": "#DA041C",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "ACA": {
+      "name": "Air Canada",
+      "colors": {
+        "primary": "#F4142C",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "QTR": {
+      "name": "Qatar Airways",
+      "colors": {
+        "primary": "#64043C",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    }
+  }
+}

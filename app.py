@@ -40,6 +40,12 @@ def get_cfg(key: str, default: Any = None) -> Any:
 # Themes directory (user-editable)
 THEMES_DIR = Path(get_cfg("themes_dir", "./themes")).resolve()
 
+# One-big-file theme config (optional)
+THEMES_JSON = Path(get_cfg("themes_json", str(THEMES_DIR / "themes.json"))).resolve()
+
+_themes_json_cache: Dict[str, Any] = {}
+_themes_json_mtime: float | None = None
+
 
 # SimBrief identity (config.json > env vars)
 def get_simbrief_identity() -> Tuple[Optional[str], Optional[str]]:
@@ -236,10 +242,56 @@ _theme_mtime: Dict[str, float] = {}
 
 def load_theme_for_icao(icao: str) -> Dict[str, Any]:
     """
-    Loads themes/<ICAO>/theme.json. Falls back to themes/default/theme.json.
-    Caches by mtime.
+    Loads theme for ICAO.
+    Priority:
+      1) themes/themes.json (one big file) if present
+      2) themes/<ICAO>/theme.json (legacy per-airline) if present
+      3) themes/default/theme.json
+      4) hardcoded default
+
+    Always returns:
+      { "icao": "...", "name": "...", "colors": {...}, "logo": <filename or None> }
     """
     icao = (icao or "default").upper()
+
+    # ---------- 1) One big themes.json ----------
+    if THEMES_JSON.exists():
+        global _themes_json_cache, _themes_json_mtime
+        mtime = THEMES_JSON.stat().st_mtime
+
+        if _themes_json_mtime != mtime or not _themes_json_cache:
+            _themes_json_cache = _read_json_file(THEMES_JSON)
+            _themes_json_mtime = mtime
+
+        cfg = _themes_json_cache or {}
+
+        default_cfg = cfg.get("default", {}) if isinstance(cfg, dict) else {}
+        themes_map = cfg.get("themes", {}) if isinstance(cfg, dict) else {}
+
+        chosen = themes_map.get(icao)
+        if not isinstance(chosen, dict):
+            icao = "default"
+            chosen = default_cfg if isinstance(default_cfg, dict) else {}
+
+        colors = chosen.get("colors") if isinstance(chosen.get("colors"), dict) else {}
+        logo = chosen.get("logo")
+        # Support both {"logo": "logo.png"} and {"logo": {"light": "...", "dark": "..."}}
+        if isinstance(logo, dict):
+            # pick "light" by default (works best on your solid primary background)
+            logo = logo.get("light") or logo.get("dark")
+
+        return {
+            "icao": icao,
+            "name": chosen.get("name", icao),
+            "colors": {
+                "primary": colors.get("primary", "#ffffff"),
+                "secondary": colors.get("secondary", "#999999"),
+                "text": colors.get("text", "#ffffff"),
+            },
+            "logo": logo,
+        }
+
+    # ---------- 2) Legacy per-airline theme.json ----------
     theme_dir = THEMES_DIR / icao
     theme_file = theme_dir / "theme.json"
 
@@ -262,10 +314,7 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
     if _theme_cache.get(cache_key) is not None and _theme_mtime.get(cache_key) == mtime:
         return _theme_cache[cache_key]
 
-    try:
-        theme = json.loads(theme_file.read_text(encoding="utf-8"))
-    except Exception:
-        theme = {}
+    theme = _read_json_file(theme_file)
 
     theme_out = {
         "icao": icao,
@@ -284,6 +333,13 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
     _theme_cache[cache_key] = theme_out
     _theme_mtime[cache_key] = mtime
     return theme_out
+
+
+def _read_json_file(p: Path) -> Dict[str, Any]:
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
 
 
 # -----------------------------
@@ -667,10 +723,11 @@ def theme():
     theme_obj = load_theme_for_icao(airline_icao)
 
     logo_url = None
-    if theme_obj.get("logo"):
-        p = THEMES_DIR / theme_obj["icao"] / theme_obj["logo"]
+    logo_name = theme_obj.get("logo")
+    if logo_name:
+        p = THEMES_DIR / theme_obj["icao"] / logo_name
         if p.exists():
-            logo_url = f"/themes/{theme_obj['icao']}/{theme_obj['logo']}"
+            logo_url = f"/themes/{theme_obj['icao']}/{logo_name}"
 
     return jsonify(
         {
