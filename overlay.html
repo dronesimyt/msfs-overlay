@@ -46,7 +46,7 @@
         border-radius: 18px;
         border: 1px solid var(--stroke);
 
-        /* ✅ single solid color (no gradient) */
+        /* single solid color (no gradient) */
         background: color-mix(in srgb, var(--primary) 78%, transparent);
 
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
@@ -78,30 +78,39 @@
       .left {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
         flex: 0 0 auto;
       }
 
+      /* ✅ LOGO CONTAINER (UPDATED)
+         - no circle
+         - bigger area
+         - no clipping
+      */
       .logoWrap {
-        width: 44px;
-        height: 44px;
-        border-radius: 999px;
+        width: 64px;
+        height: 64px;
+
         display: grid;
         place-items: center;
 
-        /* no background so it doesn't tint the logo */
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+        border: none;
+        box-shadow: none;
 
-        overflow: hidden;
+        /* IMPORTANT: do not clip */
+        overflow: visible;
+
+        /* no circle */
+        border-radius: 0;
+
         flex: 0 0 auto;
       }
 
-      /* Make logo fill the circle better */
+      /* ✅ logo scales up, never clipped */
       .logoWrap img {
-        width: 42px;
-        height: 42px;
+        width: 58px;
+        height: 58px;
         object-fit: contain;
         display: none;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
@@ -124,20 +133,21 @@
       }
 
       .aircraft {
-        font-size: 18px;
+        font-size: 24px;
         opacity: 0.92;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         white-space: nowrap;
       }
 
       .callsign {
-        font-size: 18px;
+        font-size: 24px;
         color: var(--secondary);
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         white-space: nowrap;
       }
 
       .routeLine {
-        font-size: 14px;
+        font-size: 18px;
         opacity: 0.9;
         display: flex;
         gap: 8px;
@@ -145,8 +155,9 @@
       }
 
       .routeTag {
-        color: color-mix(in srgb, var(--secondary) 80%, white);
+        color: var(--secondary);
         font-weight: 800;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         flex: 0 0 auto;
       }
 
@@ -163,7 +174,7 @@
         min-width: 0;
       }
 
-      /* ✅ 2 rows x 4 columns (so VS/OAT/TAT fit without hiding) */
+      /* 2 rows x 4 columns */
       .metrics {
         width: 100%;
         display: grid;
@@ -183,15 +194,14 @@
       }
 
       .mLabel {
-        font-size: 12px;
+        font-size: 16px;
         opacity: 0.82;
-        color: color-mix(in srgb, var(--secondary) 85%, white);
         font-weight: 700;
         letter-spacing: 0.3px;
       }
 
       .mVal {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 900;
         min-width: 0;
         overflow: hidden;
@@ -200,7 +210,7 @@
       }
 
       .mUnit {
-        font-size: 12px;
+        font-size: 14px;
         opacity: 0.85;
         font-weight: 700;
       }
@@ -225,9 +235,10 @@
       }
 
       .tripLabel {
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 900;
-        color: color-mix(in srgb, var(--secondary) 85%, white);
+        color: var(--secondary);
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         letter-spacing: 0.35px;
         flex: 0 0 auto;
       }
@@ -236,7 +247,7 @@
         flex: 1 1 auto;
         min-width: 0;
         text-align: right;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 900;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -250,10 +261,10 @@
       }
 
       .warn {
-        color: #ffd37a;
+        color: #ffffff;
       }
 
-      /* If the view gets tighter, scale text a bit (no wrapping, no hiding) */
+      /* If the view gets tighter, scale text a bit */
       @media (max-width: 980px) {
         .mLabel {
           font-size: 11px;
@@ -285,6 +296,16 @@
         .aircraft,
         .callsign {
           font-size: 16px;
+        }
+
+        /* scale logo down a bit on small widths */
+        .logoWrap {
+          width: 56px;
+          height: 56px;
+        }
+        .logoWrap img {
+          width: 50px;
+          height: 50px;
         }
       }
 

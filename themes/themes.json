@@ -16,7 +16,7 @@
       "name": "Lufthansa",
       "colors": {
         "primary": "#05164D",
-        "secondary": "#FFCC00",
+        "secondary": "#f9ba00",
         "text": "#FFFFFF"
       },
       "logo": {
@@ -100,6 +100,138 @@
       "name": "Turkish Airlines",
       "colors": {
         "primary": "#E30A17",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "IBE": {
+      "name": "Iberia",
+      "colors": {
+        "primary": "#C8102E",
+        "secondary": "#FFC72C",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "SWA": {
+      "name": "Southwest Airlines",
+      "colors": {
+        "primary": "#007BC1",
+        "secondary": "#FFB612",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "ASA": {
+      "name": "Alaska Airlines",
+      "colors": {
+        "primary": "#003366",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "NKS": {
+      "name": "Spirit Airlines",
+      "colors": {
+        "primary": "#FFDD00",
+        "secondary": "#000000",
+        "text": "#000000"
+      },
+      "logo": {
+        "light": "logo_black.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "RJA": {
+      "name": "Royal Jordanian",
+      "colors": {
+        "primary": "#8A1538",
+        "secondary": "#FFD100",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "CPA": {
+      "name": "Cathay Pacific",
+      "colors": {
+        "primary": "#00604A",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "SIA": {
+      "name": "Singapore Airlines",
+      "colors": {
+        "primary": "#00205B",
+        "secondary": "#F9A800",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "QFA": {
+      "name": "Qantas",
+      "colors": {
+        "primary": "#E4002B",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "ANA": {
+      "name": "All Nippon Airways",
+      "colors": {
+        "primary": "#0033A0",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "JAL": {
+      "name": "Japan Airlines",
+      "colors": {
+        "primary": "#E60012",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "CSN": {
+      "name": "China Southern Airlines",
+      "colors": {
+        "primary": "#004FAA",
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
