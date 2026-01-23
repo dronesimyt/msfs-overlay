@@ -159,8 +159,8 @@
     "RJA": {
       "name": "Royal Jordanian",
       "colors": {
-        "primary": "#8A1538",
-        "secondary": "#FFD100",
+        "primary": "#393939",
+        "secondary": "#e50000",
         "text": "#FFFFFF"
       },
       "logo": {
