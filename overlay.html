@@ -25,7 +25,7 @@
           sans-serif;
         color: var(--text);
 
-        /* Center the overlay on screen */
+        /* Center the overlay on screen (top aligned) */
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -33,14 +33,21 @@
         box-sizing: border-box;
       }
 
-      /* Overall top bar */
+      /* Overall top bar (NOW A 2-ROW GRID) */
       .bar {
         width: 1200px;
         max-width: calc(100vw - 28px);
 
-        display: flex;
-        align-items: center;
-        gap: 14px;
+        display: grid;
+        grid-template-columns: auto 1fr 220px;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          "left center right"
+          "goal goal goal";
+
+        column-gap: 14px;
+        row-gap: 10px;
+
         padding: 12px 16px;
 
         border-radius: 18px;
@@ -53,10 +60,6 @@
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
 
-        /* Keep it one line */
-        flex-wrap: nowrap;
-
-        /* Nothing can visually escape the rounded bar */
         overflow: hidden;
       }
 
@@ -70,44 +73,52 @@
       .routeLine,
       .metrics,
       .metric,
-      .tripRow {
+      .tripRow,
+      .goalWrap,
+      .goalInner,
+      .goalLeft {
         min-width: 0;
       }
 
-      /* Left badge */
+      /* Grid areas */
       .left {
+        grid-area: left;
         display: flex;
         align-items: center;
         gap: 14px;
         flex: 0 0 auto;
       }
 
-      /* ✅ LOGO CONTAINER (UPDATED)
-         - no circle
-         - bigger area
-         - no clipping
-      */
+      .center {
+        grid-area: center;
+        display: flex;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      .right {
+        grid-area: right;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding-left: 12px;
+        border-left: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      /* ✅ LOGO CONTAINER */
       .logoWrap {
         width: 64px;
         height: 64px;
-
         display: grid;
         place-items: center;
-
         background: transparent;
         border: none;
         box-shadow: none;
-
-        /* IMPORTANT: do not clip */
         overflow: visible;
-
-        /* no circle */
         border-radius: 0;
-
         flex: 0 0 auto;
       }
 
-      /* ✅ logo scales up, never clipped */
       .logoWrap img {
         width: 58px;
         height: 58px;
@@ -166,21 +177,13 @@
         flex: 0 0 auto;
       }
 
-      /* Center metrics block */
-      .center {
-        flex: 1 1 auto;
-        display: flex;
-        justify-content: center;
-        min-width: 0;
-      }
-
       /* 2 rows x 4 columns */
       .metrics {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         grid-auto-rows: auto;
-        gap: 10px 12px;
+        gap: 6px 8px;
         align-items: center;
       }
 
@@ -216,15 +219,6 @@
       }
 
       /* Right block (DTG/ETA/ETE) */
-      .right {
-        flex: 0 0 220px;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding-left: 12px;
-        border-left: 1px solid rgba(255, 255, 255, 0.14);
-      }
-
       .tripRow {
         display: flex;
         justify-content: space-between;
@@ -264,7 +258,72 @@
         color: #ffffff;
       }
 
-      /* If the view gets tighter, scale text a bit */
+      /* --- TikTok follower goal bar (INSIDE BAR BOTTOM ROW) --- */
+      .goalWrap {
+        grid-area: goal;
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0);
+
+        overflow: hidden;
+      }
+
+      .goalInner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 12px 6px 12px;
+        white-space: nowrap;
+      }
+
+      .goalLeft {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      /* .goalTag {
+        color: var(--secondary);
+        font-weight: 900;
+        letter-spacing: 0.35px;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+        flex: 0 0 auto;
+      } */
+
+      .goalText {
+        font-weight: 900;
+        opacity: 0.92;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .goalRight {
+        font-weight: 900;
+        opacity: 0.92;
+        flex: 0 0 auto;
+      }
+
+      .goalTrack {
+        height: 12px;
+        margin: 0 12px 10px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        overflow: hidden;
+      }
+
+      .goalFill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: var(--secondary);
+        transition: width 0.35s ease;
+      }
+
+      /* Responsive tweaks */
       @media (max-width: 980px) {
         .mLabel {
           font-size: 11px;
@@ -288,7 +347,7 @@
           font-size: 10px;
         }
         .right {
-          flex-basis: 200px;
+          grid-column: 3;
         }
         .tripVal {
           font-size: 14px;
@@ -298,7 +357,6 @@
           font-size: 16px;
         }
 
-        /* scale logo down a bit on small widths */
         .logoWrap {
           width: 56px;
           height: 56px;
@@ -311,7 +369,8 @@
 
       @media (max-width: 720px) {
         .bar {
-          gap: 10px;
+          column-gap: 10px;
+          row-gap: 8px;
           padding: 10px 12px;
         }
         .metrics {
@@ -402,10 +461,29 @@
 
         <div class="status" id="status"></div>
       </div>
+
+      <!-- GOAL (BOTTOM ROW INSIDE MAIN BAR) -->
+      <div class="goalWrap" id="goalBar" style="display: none">
+        <div class="goalInner">
+          <div class="goalLeft">
+            <!-- <span class="goalTag">TIKTOK</span> -->
+            <span class="goalText" id="goalText">Follower Goal</span>
+          </div>
+          <div class="goalRight" id="goalNums">-- / --</div>
+        </div>
+        <div class="goalTrack">
+          <div class="goalFill" id="goalFill"></div>
+        </div>
+      </div>
     </div>
 
     <script>
       const el = (id) => document.getElementById(id);
+
+      function toNum(v) {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : null;
+      }
 
       function fmt(n, digits = 0) {
         if (n === null || n === undefined || Number.isNaN(n)) return "--";
@@ -459,7 +537,7 @@
           el("dep").textContent = safeStr(sb.dep_icao, "----");
           el("arr").textContent = safeStr(sb.arr_icao, "----");
 
-          // prefer simbrief aircraft if simconnect reports placeholder
+          // aircraft
           const aircraftFromSb = sb.aircraft_icao;
           const aircraftFromSim = d.aircraft_icao;
           const aircraft =
@@ -490,6 +568,27 @@
             status = safeStr(d.simbrief_error, "SimBrief not available");
           el("status").textContent = status;
           el("status").classList.toggle("warn", !!status);
+
+          // --- TikTok followers goal bar (TokCount) ---
+          const goalBar = el("goalBar");
+          const goalFill = el("goalFill");
+          const goalNums = el("goalNums");
+          const goalText = el("goalText");
+
+          const followers = toNum(d.tiktok_followers_current) ?? toNum(d?.tokcount_raw?.followers);
+          const goal = toNum(d.tiktok_followers_goal) ?? toNum(d?.tiktok_followers_goal) ?? 500;
+
+          if (followers != null && goal != null) {
+            goalBar.style.display = "block";
+
+            const pct = goal > 0 ? Math.max(0, Math.min(100, (followers / goal) * 100)) : 0;
+            goalFill.style.width = pct.toFixed(1) + "%";
+
+            goalNums.textContent = `${followers} / ${goal}`;
+            goalText.textContent = `FOLLOWER GOAL (${pct.toFixed(0)}%)`;
+          } else {
+            goalBar.style.display = "none";
+          }
         } catch (e) {
           // keep overlay stable even if fetch fails
         }

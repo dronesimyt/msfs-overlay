@@ -30,7 +30,185 @@ def load_config() -> Dict[str, Any]:
     return {}
 
 
+# -----------------------------
+# TokCount (no OAuth) – follower stats
+# -----------------------------
+TOKCOUNT_BASE = "https://tiktok.tokcount.com/user/stats/"
+
+tokcount_state = {
+    "followers": None,
+    "likes": None,
+    "following": None,
+    "videos": None,
+    "ts": 0,
+    "error": None,
+}
+
+# “Browser-ish” headers (fixes many 403 cases)
+TOKCOUNT_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/122.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json,text/plain,*/*",
+    "Accept-Language": "en-US,en;q=0.9,de;q=0.8",
+    "Referer": "https://tokcount.com/",
+    "Origin": "https://tokcount.com",
+    "Connection": "keep-alive",
+}
+
+_tokcount_session = requests.Session()
+_tokcount_session.headers.update(TOKCOUNT_HEADERS)
+
+
+def update_tokcount():
+    """Fetch stats from TokCount and store them in tokcount_state."""
+    user_id = CONFIG.get("tiktok_user_id")
+    if not user_id:
+        tokcount_state["error"] = "tiktok_user_id missing in config.json"
+        return
+
+    url = TOKCOUNT_BASE + str(user_id)
+    try:
+        r = _tokcount_session.get(url, timeout=15)
+        r.raise_for_status()
+        j = r.json()
+
+        # expected keys from your sample:
+        # followerCount, likeCount, followingCount, videoCount
+        tokcount_state["followers"] = j.get("followerCount")
+        tokcount_state["likes"] = j.get("likeCount")
+        tokcount_state["following"] = j.get("followingCount")
+        tokcount_state["videos"] = j.get("videoCount")
+        tokcount_state["ts"] = int(time.time())
+        tokcount_state["error"] = None
+    except Exception as e:
+        tokcount_state["error"] = str(e)
+
+
+def tokcount_worker():
+    refresh_s = int(CONFIG.get("tokcount_refresh_seconds", 15))
+    while True:
+        try:
+            update_tokcount()
+        except Exception as e:
+            tokcount_state["error"] = str(e)
+        time.sleep(max(5, refresh_s))
+
+
 CONFIG = load_config()
+threading.Thread(target=tokcount_worker, daemon=True).start()
+
+TOKCOUNT_URL = "https://tiktok.tokcount.com/user/stats/{uid}"
+TOKCOUNT_CACHE_PATH = os.path.join(os.path.dirname(__file__), "tokcount_cache.json")
+
+TIKTOK_USER_ID = CONFIG.get("tiktok_user_id")
+FOLLOWERS_GOAL = int(CONFIG.get("tiktok_followers_goal", 500))
+TOKCOUNT_REFRESH_SECONDS = int(CONFIG.get("tokcount_refresh_seconds", 15))
+_tokcount = {
+    "ts": 0.0,
+    "followers": None,
+    "likes": None,
+    "following": None,
+    "videos": None,
+    "error": None,
+}
+
+_tokcount_lock = threading.Lock()
+
+
+def _tokcount_load_cache():
+    if not os.path.exists(TOKCOUNT_CACHE_PATH):
+        return
+    try:
+        with open(TOKCOUNT_CACHE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        _tokcount.update(
+            {
+                "ts": float(data.get("ts", 0.0)),
+                "followers": data.get("followers"),
+                "likes": data.get("likes"),
+                "following": data.get("following"),
+                "videos": data.get("videos"),
+                "error": None,
+            }
+        )
+    except Exception:
+        pass
+
+
+def _tokcount_save_cache():
+    try:
+        data = {
+            "ts": _tokcount["ts"],
+            "followers": _tokcount["followers"],
+            "likes": _tokcount["likes"],
+            "following": _tokcount["following"],
+            "videos": _tokcount["videos"],
+        }
+        tmp = TOKCOUNT_CACHE_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        os.replace(tmp, TOKCOUNT_CACHE_PATH)
+    except Exception:
+        pass
+
+
+def _fetch_tokcount(uid: str):
+    url = TOKCOUNT_URL.format(uid=uid)
+    headers = {
+        "User-Agent": "DroneSimOverlay/1.0 (+overlay.dronesim.de)",
+        "Accept": "application/json",
+    }
+    r = requests.get(url, headers=headers, timeout=10)
+    r.raise_for_status()
+    return r.json()
+
+
+def get_tokcount_cached():
+    if not TIKTOK_USER_ID:
+        return None, "tiktok_user_id not set"
+
+    now = time.time()
+    with _tokcount_lock:
+        age = now - _tokcount["ts"]
+        if _tokcount["followers"] is not None and age < TOKCOUNT_REFRESH_SECONDS:
+            return dict(_tokcount), None
+
+    try:
+        data = _fetch_tokcount(TIKTOK_USER_ID)
+        if not data.get("success"):
+            raise RuntimeError(f"tokcount success=false: {data}")
+
+        with _tokcount_lock:
+            _tokcount["ts"] = now
+            _tokcount["followers"] = (
+                int(data.get("followerCount")) if data.get("followerCount") is not None else None
+            )
+            _tokcount["likes"] = (
+                int(data.get("likeCount")) if data.get("likeCount") is not None else None
+            )
+            _tokcount["following"] = (
+                int(data.get("followingCount")) if data.get("followingCount") is not None else None
+            )
+            _tokcount["videos"] = (
+                int(data.get("videoCount")) if data.get("videoCount") is not None else None
+            )
+            _tokcount["error"] = None
+            _tokcount_save_cache()
+
+        return dict(_tokcount), None
+
+    except Exception as e:
+        # Keep last known good values, just report error
+        with _tokcount_lock:
+            _tokcount["error"] = str(e)
+        return dict(_tokcount), str(e)
+
+
+# # load cached value once on startup
+# _tokcount_load_cache()
 
 
 def get_cfg(key: str, default: Any = None) -> Any:
@@ -657,6 +835,8 @@ def get_state() -> Dict[str, Any]:
     ete_hhmm = hours_to_hhmm(ete_h)
     eta_z = eta_zulu_from_hours(ete_h)
 
+    tok, tok_err = get_tokcount_cached()
+
     state = {
         "simconnect_ok": sim_ok,
         "simconnect_msg": sim_msg,
@@ -689,6 +869,17 @@ def get_state() -> Dict[str, Any]:
         # aircraft type (ICAO)
         "aircraft_icao": aircraft_icao,
         "aircraft_icao_source": aircraft_icao_source,
+        "tiktok_user_id": CONFIG.get("tiktok_user_id"),
+        "tokcount_refresh_seconds": int(CONFIG.get("tokcount_refresh_seconds", 15)),
+        "tokcount_error": tokcount_state.get("error"),
+        "tokcount_raw": {
+            "followers": tokcount_state.get("followers"),
+            "likes": tokcount_state.get("likes"),
+            "following": tokcount_state.get("following"),
+            "videos": tokcount_state.get("videos"),
+            "ts": tokcount_state.get("ts"),
+            "error": tokcount_state.get("error"),
+        },
     }
 
     return {k: json_safe(v) for k, v in state.items()}
@@ -700,6 +891,22 @@ def get_state() -> Dict[str, Any]:
 @app.get("/data")
 def data():
     return jsonify(get_state())
+
+
+@app.get("/debug")
+def debug():
+    tok, tok_err = get_tokcount_cached()
+    aq_obj, sim_ok, sim_msg = ensure_connection()
+    return jsonify(
+        {
+            "simconnect_ok": sim_ok,
+            "simconnect_msg": sim_msg,
+            "tiktok_user_id": TIKTOK_USER_ID,
+            "tokcount_refresh_seconds": TOKCOUNT_REFRESH_SECONDS,
+            "tokcount_error": tok_err,
+            "tokcount_raw": tok,
+        }
+    )
 
 
 @app.get("/simbrief")

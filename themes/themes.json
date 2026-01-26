@@ -19,7 +19,7 @@
         "secondary": "#f9ba00",
         "text": "#FFFFFF"
       },
-      "logo": {
+      "logo": { 
         "light": "logo_white.png",
         "dark": "logo_color.png"
       }
@@ -27,8 +27,8 @@
     "EWG": {
       "name": "Eurowings",
       "colors": {
-        "primary": "#9a0040",
-        "secondary": "#0077ff",
+        "primary": "#580025",
+        "secondary": "#0400e2",
         "text": "#FFFFFF"
       },
       "logo": {
@@ -53,6 +53,30 @@
       "colors": {
         "primary": "#c20020",
         "secondary": "#0A1F44",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "KLM": {
+      "name": "KLM Royal Dutch Airlines",
+      "colors": {
+        "primary": "#0055BA",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": {
+        "light": "logo_white.png",
+        "dark": "logo_color.png"
+      }
+    },
+    "TFL": {
+      "name": "TUI fly Netherlands",
+      "colors": {
+        "primary": "#E30A17",
+        "secondary": "#0013bb",
         "text": "#FFFFFF"
       },
       "logo": {
@@ -111,8 +135,8 @@
     "IBE": {
       "name": "Iberia",
       "colors": {
-        "primary": "#C8102E",
-        "secondary": "#FFC72C",
+        "primary": "#ff0000",
+        "secondary": "#ffc72c",
         "text": "#FFFFFF"
       },
       "logo": {
