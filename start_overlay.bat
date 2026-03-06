@@ -16,6 +16,10 @@ echo CaddyExe: %CaddyExe%
 echo Caddyfile:%CaddyFile%
 echo.
 
+REM Kill any existing Caddy processes
+echo Killing existing Caddy processes...
+taskkill /f /im caddy.exe >nul 2>&1
+
 REM Start Flask hidden
 echo Starting Flask...
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^

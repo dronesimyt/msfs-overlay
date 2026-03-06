@@ -2,14 +2,11 @@
   "default": {
     "name": "Default",
     "colors": {
-      "primary": "#111827",
-      "secondary": "#9CA3AF",
+      "primary": "#728460",
+      "secondary": "#f8df00",
       "text": "#FFFFFF"
     },
-    "logo": {
-      "light": null,
-      "dark": null
-    }
+    "logo": "logo.png"
   },
   "themes": {
     "DLH": {
@@ -19,10 +16,7 @@
         "secondary": "#f9ba00",
         "text": "#FFFFFF"
       },
-      "logo": { 
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "EWG": {
       "name": "Eurowings",
@@ -31,10 +25,25 @@
         "secondary": "#0400e2",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
+    },
+    "THA": {
+      "name": "Thai Airways",
+      "colors": {
+        "primary": "#370e62",
+        "secondary": "#FFD700",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
+    },
+    "VKG": {
+      "name": "Sunclass Airlines",
+      "colors": {
+        "primary": "#ff9100",
+        "secondary": "#ffdd1d",
+        "text": "#000000"
+      },
+      "logo": "logo_black.png"
     },
     "BAW": {
       "name": "British Airways",
@@ -43,22 +52,16 @@
         "secondary": "#CC3333",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "DAL": {
       "name": "Delta Air Lines",
       "colors": {
         "primary": "#c20020",
-        "secondary": "#0A1F44",
+        "secondary": "#042a6b",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "KLM": {
       "name": "KLM Royal Dutch Airlines",
@@ -67,10 +70,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "TFL": {
       "name": "TUI fly Netherlands",
@@ -79,10 +79,7 @@
         "secondary": "#0013bb",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "UAL": {
       "name": "United Airlines",
@@ -91,10 +88,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "AAL": {
       "name": "American Airlines",
@@ -103,10 +97,7 @@
         "secondary": "#B61F23",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "UAE": {
       "name": "Emirates",
@@ -115,10 +106,25 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
+    },
+    "ETD": {
+      "name": "Etihad Airways",
+      "colors": {
+        "primary": "#270015",
+        "secondary": "#bd8b13",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
+    },
+    "MSR": {
+      "name": "EgyptAir",
+      "colors": {
+        "primary": "#003366",
+        "secondary": "#FFFFFF",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
     },
     "THY": {
       "name": "Turkish Airlines",
@@ -127,10 +133,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "IBE": {
       "name": "Iberia",
@@ -139,10 +142,7 @@
         "secondary": "#ffc72c",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "SWA": {
       "name": "Southwest Airlines",
@@ -151,10 +151,16 @@
         "secondary": "#FFB612",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
+    },
+    "SAS": {
+      "name": "Scandinavian Airlines",
+      "colors": {
+        "primary": "#868686",
+        "secondary": "#00039b",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
     },
     "ASA": {
       "name": "Alaska Airlines",
@@ -163,10 +169,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "NKS": {
       "name": "Spirit Airlines",
@@ -175,22 +178,16 @@
         "secondary": "#000000",
         "text": "#000000"
       },
-      "logo": {
-        "light": "logo_black.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_black.png"
     },
     "RJA": {
       "name": "Royal Jordanian",
       "colors": {
-        "primary": "#393939",
+        "primary": "#472d00",
         "secondary": "#e50000",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "CPA": {
       "name": "Cathay Pacific",
@@ -199,10 +196,16 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
+    },
+    "VIP": {
+      "name": "VIP Airlines",
+      "colors": {
+        "primary": "#351101",
+        "secondary": "#ff9100",
+        "text": "#ffffff"
+      },
+      "logo": "logo_black.png"
     },
     "SIA": {
       "name": "Singapore Airlines",
@@ -211,10 +214,7 @@
         "secondary": "#F9A800",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "QFA": {
       "name": "Qantas",
@@ -223,10 +223,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "ANA": {
       "name": "All Nippon Airways",
@@ -235,10 +232,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "JAL": {
       "name": "Japan Airlines",
@@ -247,10 +241,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "CSN": {
       "name": "China Southern Airlines",
@@ -259,10 +250,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "RYR": {
       "name": "Ryanair",
@@ -271,10 +259,7 @@
         "secondary": "#F1C933",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "EZY": {
       "name": "easyJet",
@@ -283,10 +268,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "AFR": {
       "name": "Air France",
@@ -295,10 +277,7 @@
         "secondary": "#DA041C",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "ACA": {
       "name": "Air Canada",
@@ -307,10 +286,7 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
+      "logo": "logo_white.png"
     },
     "QTR": {
       "name": "Qatar Airways",
@@ -319,10 +295,44 @@
         "secondary": "#FFFFFF",
         "text": "#FFFFFF"
       },
-      "logo": {
-        "light": "logo_white.png",
-        "dark": "logo_color.png"
-      }
-    }
+      "logo": "logo_white.png"
+    },
+    "CCA": {
+      "name": "Air China",
+      "colors": {
+        "primary": "#0026fd",
+        "secondary": "#e60012",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
+    },
+    "BGA": {
+      "name": "Beluga",
+      "colors": {
+        "primary": "#0e2563",
+        "secondary": "#ffa600",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo.png"
+    },
+    "CES": {
+      "name": "China Eastern Airlines",
+      "colors": {
+        "primary": "#1b1d80",
+        "secondary": "#df0011",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo_white.png"
+    },
+    "BCS": {
+      "name": "European Air Transport",
+      "colors": {
+        "primary": "#fecc00",
+        "secondary": "#d50029",
+        "text": "#3a3a3a"
+      },
+      "logo": "logo_white.png"
+    },
+
   }
 }
