@@ -333,6 +333,32 @@
       },
       "logo": "logo_white.png"
     },
-
+    "AZU": {
+      "name": "Azul Brazilian Airlines",
+      "colors": {
+        "primary": "#009739",
+        "secondary": "#FEDD00",
+        "text": "#012169"
+      },
+      "logo": "logo.png"
+    },
+    "AMX": {
+      "name": "Aeromexico",
+      "colors": {
+        "primary": "#040c3e",
+        "secondary": "#ff0000",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo.png"
+    },
+    "SAA": {
+      "name": "South African Airways",
+      "colors": {
+        "primary": "#078b00",
+        "secondary": "#ffb000",
+        "text": "#000000"
+      },
+      "logo": "logo.png"
+    }
   }
 }

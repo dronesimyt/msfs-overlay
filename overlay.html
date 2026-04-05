@@ -54,7 +54,7 @@
         border: 1px solid var(--stroke);
 
         /* single solid color (no gradient) */
-        background: color-mix(in srgb, var(--primary) 78%, transparent);
+        background: color-mix(in srgb, var(--primary) 90%, transparent);
 
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
         backdrop-filter: blur(10px);
@@ -576,7 +576,7 @@
           const goalText = el("goalText");
 
           const followers = toNum(d.tiktok_followers_current) ?? toNum(d?.tokcount_raw?.followers);
-          const goal = toNum(d.tiktok_followers_goal) ?? toNum(d?.tiktok_followers_goal) ?? 500;
+          const goal = toNum(d.tiktok_followers_goal) ?? toNum(d?.tiktok_followers_goal) ?? 1000;
 
           if (followers != null && goal != null) {
             goalBar.style.display = "block";
@@ -598,7 +598,7 @@
       setInterval(loadTheme, 15000);
 
       tick();
-      setInterval(tick, 1000);
+      setInterval(tick, 15000);
     </script>
   </body>
 </html>
