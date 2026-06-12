@@ -890,6 +890,14 @@ def data():
     return jsonify(get_state())
 
 
+@app.post("/shutdown")
+def shutdown():
+    if request.remote_addr != "127.0.0.1":
+        return jsonify({"error": "forbidden"}), 403
+    threading.Timer(0.1, lambda: os._exit(0)).start()
+    return jsonify({"ok": True})
+
+
 @app.get("/debug")
 def debug():
     if request.remote_addr != "127.0.0.1":
@@ -909,16 +917,6 @@ def debug():
     )
 
 
-@app.get("/simbrief")
-def simbrief():
-    sb_raw, sb_err = get_simbrief_cached()
-    return jsonify(
-        {
-            "ok": sb_raw is not None,
-            "error": sb_err,
-            "data": extract_simbrief_fields(sb_raw) if sb_raw else {},
-        }
-    )
 
 
 @app.get("/theme")
@@ -968,58 +966,10 @@ def themes_static(icao: str, filename: str):
     return send_from_directory(directory, filename)
 
 
-@app.get("/overlay")
+@app.get("/")
 def overlay():
     return send_file("overlay.html")
 
-
-@app.get("/simbrief_raw_airports")
-def simbrief_raw_airports():
-    sb_raw, sb_err = get_simbrief_cached()
-    if not sb_raw:
-        return jsonify({"ok": False, "error": sb_err})
-    return jsonify(
-        {
-            "origin": sb_raw.get("origin"),
-            "destination": sb_raw.get("destination"),
-        }
-    )
-
-
-@app.get("/simbrief_raw")
-def simbrief_raw():
-    sb_raw, sb_err = get_simbrief_cached()
-    if not sb_raw:
-        return jsonify({"ok": False, "error": sb_err})
-
-    # keep it small + useful (no giant NOTAM dumps)
-    return jsonify(
-        {
-            "ok": True,
-            "error": None,
-            "general": sb_raw.get("general"),
-            "atc": sb_raw.get("atc"),
-            "origin": {
-                "icao_code": deep_get(sb_raw, "origin", "icao_code"),
-                "metar": deep_get(sb_raw, "origin", "metar"),
-                "taf": deep_get(sb_raw, "origin", "taf"),
-                "plan_rwy": deep_get(sb_raw, "origin", "plan_rwy"),
-                "name": deep_get(sb_raw, "origin", "name"),
-            },
-            "destination": {
-                "icao_code": deep_get(sb_raw, "destination", "icao_code"),
-                "metar": deep_get(sb_raw, "destination", "metar"),
-                "taf": deep_get(sb_raw, "destination", "taf"),
-                "plan_rwy": deep_get(sb_raw, "destination", "plan_rwy"),
-                "name": deep_get(sb_raw, "destination", "name"),
-            },
-        }
-    )
-
-
-@app.get("/")
-def root():
-    return send_file("overlay.html")
 
 
 if __name__ == "__main__":

@@ -1,19 +1,12 @@
 @echo off
 setlocal EnableExtensions
 
-net session >nul 2>&1
-if %errorlevel% neq 0 (
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
-    exit /b
-)
-
 echo.
 echo === DroneSim Overlay STOP ===
 echo.
 
-echo Killing Python (python3.13.exe)...
-taskkill /IM python.exe /F
-echo ExitCode (python): %ERRORLEVEL%
+echo Stopping Flask...
+powershell -Command "try { Invoke-WebRequest -Uri 'http://127.0.0.1:5000/shutdown' -Method POST -UseBasicParsing | Out-Null; Write-Host 'Flask stopped.' } catch { Write-Host 'Flask was not running.' }"
 echo.
 
 

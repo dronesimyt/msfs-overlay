@@ -16,7 +16,7 @@ echo === DroneSim Overlay START ===
 echo.
 
 REM Kill any previous Flask instance
-taskkill /IM python3.13.exe /F >nul 2>&1
+taskkill /IM python.exe /F >nul 2>&1
 
 REM Start Flask hidden
 echo Starting Flask...
@@ -26,7 +26,6 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
 timeout /t 2 >nul
 
 echo.
-echo Overlay: https://overlay.dronesim.de/overlay
+echo Overlay: https://overlay.dronesim.de/
 echo.
 
-pause
