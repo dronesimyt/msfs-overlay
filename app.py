@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional, Tuple, List
 from datetime import datetime, timedelta, timezone
 
 import requests
-from flask import Flask, jsonify, send_file, send_from_directory
+from flask import Flask, jsonify, request, send_file, send_from_directory
 
 from SimConnect import SimConnect, AircraftRequests
 
@@ -157,11 +157,7 @@ def _tokcount_save_cache():
 
 def _fetch_tokcount(uid: str):
     url = TOKCOUNT_URL.format(uid=uid)
-    headers = {
-        "User-Agent": "DroneSimOverlay/1.0 (+overlay.dronesim.de)",
-        "Accept": "application/json",
-    }
-    r = requests.get(url, headers=headers, timeout=10)
+    r = _tokcount_session.get(url, timeout=10)
     r.raise_for_status()
     return r.json()
 
@@ -870,6 +866,7 @@ def get_state() -> Dict[str, Any]:
         "aircraft_icao": aircraft_icao,
         "aircraft_icao_source": aircraft_icao_source,
         "tiktok_user_id": CONFIG.get("tiktok_user_id"),
+        "tiktok_followers_goal": int(get_cfg("tiktok_followers_goal", 1000)),
         "tokcount_refresh_seconds": int(CONFIG.get("tokcount_refresh_seconds", 15)),
         "tokcount_error": tokcount_state.get("error"),
         "tokcount_raw": {
@@ -895,6 +892,8 @@ def data():
 
 @app.get("/debug")
 def debug():
+    if request.remote_addr != "127.0.0.1":
+        return jsonify({"error": "forbidden"}), 403
     tok, tok_err = get_tokcount_cached()
     aq_obj, sim_ok, sim_msg = ensure_connection()
     return jsonify(
@@ -902,6 +901,7 @@ def debug():
             "simconnect_ok": sim_ok,
             "simconnect_msg": sim_msg,
             "tiktok_user_id": TIKTOK_USER_ID,
+            "tiktok_followers_goal": int(get_cfg("tiktok_followers_goal", 1000)),
             "tokcount_refresh_seconds": TOKCOUNT_REFRESH_SECONDS,
             "tokcount_error": tok_err,
             "tokcount_raw": tok,
@@ -931,10 +931,25 @@ def theme():
 
     logo_url = None
     logo_name = theme_obj.get("logo")
+    theme_dir = THEMES_DIR / theme_obj.get("icao", "default")
+
     if logo_name:
-        p = THEMES_DIR / theme_obj["icao"] / logo_name
+        p = theme_dir / logo_name
         if p.exists():
             logo_url = f"/themes/{theme_obj['icao']}/{logo_name}"
+
+    if not logo_url and theme_dir.exists():
+        for candidate in ["logo.png", "logo_white.png", "logo_black.png"]:
+            p = theme_dir / candidate
+            if p.exists():
+                logo_url = f"/themes/{theme_obj['icao']}/{candidate}"
+                break
+
+    if not logo_url and theme_dir.exists():
+        for p in theme_dir.glob("logo*.*"):
+            if p.is_file():
+                logo_url = f"/themes/{theme_obj['icao']}/{p.name}"
+                break
 
     return jsonify(
         {

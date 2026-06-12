@@ -9,6 +9,33 @@
     "logo": "logo.png"
   },
   "themes": {
+    "SWR": {
+      "name": "Swiss International Air Lines",
+      "colors": {
+        "primary": "#E30A17",
+        "secondary": "#FFFFFF",
+        "text": "#004fe0"
+      },
+      "logo": "logo.png"
+    },
+    "UPS": {
+      "name": "UPS",
+      "colors": {
+        "primary": "#351101",
+        "secondary": "#ff9100",
+        "text": "#ffffff"
+      },
+      "logo": "logo_white.png"
+    },
+    "FDX": {
+      "name": "FedEx",
+      "colors": {
+        "primary": "#4d148c",
+        "secondary": "#ff6600",
+        "text": "#ffffff"
+      },
+      "logo": "logo_white.png"
+    },
     "DLH": {
       "name": "Lufthansa",
       "colors": {
@@ -357,6 +384,15 @@
         "primary": "#078b00",
         "secondary": "#ffb000",
         "text": "#000000"
+      },
+      "logo": "logo.png"
+    },
+    "ARG": {
+      "name": "Aerolineas Argentinas",
+      "colors": {
+        "primary": "#5c5c5c",
+        "secondary": "#00a2ff",
+        "text": "#ffffff"
       },
       "logo": "logo.png"
     }
