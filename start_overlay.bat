@@ -21,7 +21,7 @@ taskkill /IM python.exe /F >nul 2>&1
 REM Start Flask hidden
 echo Starting Flask...
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-  "Start-Process -WindowStyle Hidden -WorkingDirectory '%AppDir%' -FilePath '%PyExe%' -ArgumentList 'app.py'"
+  "Start-Process -WindowStyle Hidden -WorkingDirectory '%AppDir%' -FilePath '%PyExe%' -ArgumentList '-B app.py'"
 
 timeout /t 2 >nul
 

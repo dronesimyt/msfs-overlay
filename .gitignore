@@ -2,3 +2,7 @@ config.json
 .vscode/settings.json
 *.log
 overlay.log
+
+__pycache__/
+*.pyc
+*.pyo
