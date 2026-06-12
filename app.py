@@ -2,6 +2,7 @@ import math
 import os
 import time
 import json
+import logging
 import threading
 import re
 from pathlib import Path
@@ -975,4 +976,15 @@ def overlay():
 if __name__ == "__main__":
     THEMES_DIR.mkdir(parents=True, exist_ok=True)
     (THEMES_DIR / "default").mkdir(parents=True, exist_ok=True)
+
+    log_path = Path(__file__).with_name("overlay.log")
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+        handlers=[
+            logging.FileHandler(log_path, encoding="utf-8"),
+            logging.StreamHandler(),
+        ],
+    )
+
     app.run(host="127.0.0.1", port=5000, debug=False)
