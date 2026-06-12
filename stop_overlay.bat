@@ -12,7 +12,7 @@ echo === DroneSim Overlay STOP ===
 echo.
 
 echo Killing Python (python3.13.exe)...
-taskkill /IM python3.13.exe /F
+taskkill /IM python.exe /F
 echo ExitCode (python): %ERRORLEVEL%
 echo.
 

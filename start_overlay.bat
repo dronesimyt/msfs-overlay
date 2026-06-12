@@ -9,7 +9,7 @@ if %errorLevel% NEQ 0 (
 )
 
 set "AppDir=%USERPROFILE%\source\repos\msfs-overlay"
-set "PyExe=%LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python3.13.exe"
+set "PyExe=%USERPROFILE%\scoop\apps\python\current\python.exe"
 
 echo.
 echo === DroneSim Overlay START ===
