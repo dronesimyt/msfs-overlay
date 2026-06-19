@@ -59,19 +59,27 @@ def theme():
     logo_name = theme_obj.get("logo")
     theme_dir = THEMES_DIR / theme_obj.get("icao", "default")
 
+    def _logo_url_with_mtime(icao: str, name: str, path: Path) -> str:
+        try:
+            mtime = int(path.stat().st_mtime)
+        except OSError:
+            mtime = 0
+        return f"/themes/{icao}/{name}?v={mtime}"
+
     if logo_name and (theme_dir / logo_name).exists():
-        logo_url = f"/themes/{theme_obj['icao']}/{logo_name}"
+        logo_url = _logo_url_with_mtime(theme_obj['icao'], logo_name, theme_dir / logo_name)
 
     if not logo_url and theme_dir.exists():
         for candidate in ["logo.png", "logo_white.png", "logo_black.png"]:
-            if (theme_dir / candidate).exists():
-                logo_url = f"/themes/{theme_obj['icao']}/{candidate}"
+            p = theme_dir / candidate
+            if p.exists():
+                logo_url = _logo_url_with_mtime(theme_obj['icao'], candidate, p)
                 break
 
     if not logo_url and theme_dir.exists():
         for p in theme_dir.glob("logo*.*"):
             if p.is_file():
-                logo_url = f"/themes/{theme_obj['icao']}/{p.name}"
+                logo_url = _logo_url_with_mtime(theme_obj['icao'], p.name, p)
                 break
 
     return jsonify({
@@ -85,7 +93,9 @@ def theme():
 @app.get("/themes/<icao>/<path:filename>")
 def themes_static(icao: str, filename: str):
     safe_icao = "".join(ch for ch in icao.upper() if ch.isalnum())[:3] or "default"
-    return send_from_directory(THEMES_DIR / safe_icao, filename)
+    resp = send_from_directory(THEMES_DIR / safe_icao, filename)
+    resp.headers["Cache-Control"] = "no-cache, must-revalidate"
+    return resp
 
 
 if __name__ == "__main__":

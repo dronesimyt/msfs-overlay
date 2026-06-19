@@ -395,6 +395,24 @@
         "text": "#ffffff"
       },
       "logo": "logo.png"
+    },
+    "RAM": {
+      "name": "Royal Air Maroc",
+      "colors": {
+        "primary": "#ffffff",
+        "secondary": "#e30a17",
+        "text": "#006400"
+      },
+      "logo": "logo.png"
+    },
+    "KZU": {
+      "name": "ULS Airlines Cargo",
+      "colors": {
+        "primary": "#f18641",
+        "secondary": "#6a6b6d",
+        "text": "#FFFFFF"
+      },
+      "logo": "logo.png"
     }
   }
 }
