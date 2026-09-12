@@ -147,9 +147,9 @@
     "MSR": {
       "name": "EgyptAir",
       "colors": {
-        "primary": "#003366",
-        "secondary": "#FFFFFF",
-        "text": "#FFFFFF"
+        "primary": "#FFFFFF",
+        "secondary": "#000000",
+        "text": "#003366"
       },
       "logo": "logo_white.png"
     },
@@ -315,14 +315,32 @@
       },
       "logo": "logo_white.png"
     },
+    "CFG": {
+      "name": "Condor",
+      "colors": {
+        "primary": "#a38552",
+        "secondary": "#FFFFFF",
+        "text": "#000000"
+      },
+      "logo": "logo_black.png"
+    },
     "QTR": {
       "name": "Qatar Airways",
       "colors": {
-        "primary": "#64043C",
-        "secondary": "#FFFFFF",
+        "primary": "#6b6b6b",
+        "secondary": "#64043C",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
+    },
+    "ITY": {
+      "name": "ITA Airways",
+      "colors": {
+        "primary": "#012b4b",
+        "secondary": "#ff0000",
+        "text": "#15ff00"
+      },
+      "logo": "logo_black.png"
     },
     "CCA": {
       "name": "Air China",
