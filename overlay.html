@@ -8,7 +8,8 @@
     <style>
       :root {
         --primary: #1b3a8a; /* theme primary */
-        --secondary: #f5c400; /* theme secondary */
+        --secondary: #f5c400; /* theme secondary: labels + aircraft type */
+        --tertiary: #ffffff; /* theme tertiary: callsign, DEP/ARR and all values */
         --text: #ffffff; /* theme text */
         --stroke: rgba(255, 255, 255, 0.16);
       }
@@ -144,6 +145,7 @@
       }
 
       .aircraft {
+        color: var(--secondary);
         font-size: 24px;
         opacity: 0.92;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
@@ -152,7 +154,7 @@
 
       .callsign {
         font-size: 24px;
-        color: var(--secondary);
+        color: var(--tertiary);
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
         white-space: nowrap;
       }
@@ -173,6 +175,7 @@
       }
 
       .routeVal {
+        color: var(--tertiary);
         font-weight: 800;
         flex: 0 0 auto;
       }
@@ -197,6 +200,7 @@
       }
 
       .mLabel {
+        color: var(--secondary);
         font-size: 16px;
         opacity: 0.82;
         font-weight: 700;
@@ -204,6 +208,7 @@
       }
 
       .mVal {
+        color: var(--tertiary);
         font-size: 15px;
         font-weight: 900;
         min-width: 0;
@@ -213,6 +218,7 @@
       }
 
       .mUnit {
+        color: var(--tertiary);
         font-size: 14px;
         opacity: 0.85;
         font-weight: 700;
@@ -238,6 +244,7 @@
       }
 
       .tripVal {
+        color: var(--tertiary);
         flex: 1 1 auto;
         min-width: 0;
         text-align: right;
@@ -510,6 +517,10 @@
 
           document.documentElement.style.setProperty("--primary", colors.primary || "#1b3a8a");
           document.documentElement.style.setProperty("--secondary", colors.secondary || "#f5c400");
+          document.documentElement.style.setProperty(
+            "--tertiary",
+            colors.tertiary || colors.text || "#ffffff"
+          );
           document.documentElement.style.setProperty("--text", colors.text || "#ffffff");
 
           const logoUrl = t.logo_url;

@@ -4,6 +4,7 @@
     "colors": {
       "primary": "#728460",
       "secondary": "#f8df00",
+      "tertiary": "#FFFFFF",
       "text": "#FFFFFF"
     },
     "logo": "logo.png"
@@ -14,6 +15,7 @@
       "colors": {
         "primary": "#E30A17",
         "secondary": "#FFFFFF",
+        "tertiary": "#111111",
         "text": "#004fe0"
       },
       "logo": "logo.png"
@@ -23,6 +25,7 @@
       "colors": {
         "primary": "#351101",
         "secondary": "#ff9100",
+        "tertiary": "#FFFFFF",
         "text": "#ffffff"
       },
       "logo": "logo_white.png"
@@ -32,6 +35,7 @@
       "colors": {
         "primary": "#4d148c",
         "secondary": "#ff6600",
+        "tertiary": "#FFFFFF",
         "text": "#ffffff"
       },
       "logo": "logo_white.png"
@@ -41,6 +45,7 @@
       "colors": {
         "primary": "#05164D",
         "secondary": "#f9ba00",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -50,6 +55,7 @@
       "colors": {
         "primary": "#580025",
         "secondary": "#0400e2",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -59,6 +65,7 @@
       "colors": {
         "primary": "#370e62",
         "secondary": "#FFD700",
+        "tertiary": "#F06EA9",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -68,6 +75,7 @@
       "colors": {
         "primary": "#ff9100",
         "secondary": "#ffdd1d",
+        "tertiary": "#14356B",
         "text": "#000000"
       },
       "logo": "logo_black.png"
@@ -77,6 +85,7 @@
       "colors": {
         "primary": "#0035AD",
         "secondary": "#CC3333",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -86,6 +95,7 @@
       "colors": {
         "primary": "#c20020",
         "secondary": "#042a6b",
+        "tertiary": "#A8C8E8",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -95,6 +105,7 @@
       "colors": {
         "primary": "#0055BA",
         "secondary": "#FFFFFF",
+        "tertiary": "#8FD3F4",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -104,6 +115,7 @@
       "colors": {
         "primary": "#E30A17",
         "secondary": "#0013bb",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -113,6 +125,7 @@
       "colors": {
         "primary": "#1414D4",
         "secondary": "#FFFFFF",
+        "tertiary": "#6ECFF6",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -122,6 +135,7 @@
       "colors": {
         "primary": "#0D73B1",
         "secondary": "#B61F23",
+        "tertiary": "#EDF1F4",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -131,6 +145,7 @@
       "colors": {
         "primary": "#D71920",
         "secondary": "#FFFFFF",
+        "tertiary": "#F5D6A0",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -140,6 +155,7 @@
       "colors": {
         "primary": "#270015",
         "secondary": "#bd8b13",
+        "tertiary": "#E8D9C5",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -149,6 +165,7 @@
       "colors": {
         "primary": "#FFFFFF",
         "secondary": "#000000",
+        "tertiary": "#8C6B1F",
         "text": "#003366"
       },
       "logo": "logo_white.png"
@@ -158,6 +175,7 @@
       "colors": {
         "primary": "#E30A17",
         "secondary": "#FFFFFF",
+        "tertiary": "#121212",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -167,6 +185,7 @@
       "colors": {
         "primary": "#ff0000",
         "secondary": "#ffc72c",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -176,6 +195,7 @@
       "colors": {
         "primary": "#007BC1",
         "secondary": "#FFB612",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -185,6 +205,7 @@
       "colors": {
         "primary": "#868686",
         "secondary": "#00039b",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -194,6 +215,7 @@
       "colors": {
         "primary": "#003366",
         "secondary": "#FFFFFF",
+        "tertiary": "#4EC3E0",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -203,6 +225,7 @@
       "colors": {
         "primary": "#FFDD00",
         "secondary": "#000000",
+        "tertiary": "#0F3D6E",
         "text": "#000000"
       },
       "logo": "logo_black.png"
@@ -212,6 +235,7 @@
       "colors": {
         "primary": "#472d00",
         "secondary": "#e50000",
+        "tertiary": "#D4AF37",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -221,6 +245,7 @@
       "colors": {
         "primary": "#00604A",
         "secondary": "#FFFFFF",
+        "tertiary": "#7FD0C4",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -230,6 +255,7 @@
       "colors": {
         "primary": "#351101",
         "secondary": "#ff9100",
+        "tertiary": "#FFFFFF",
         "text": "#ffffff"
       },
       "logo": "logo_black.png"
@@ -239,6 +265,7 @@
       "colors": {
         "primary": "#00205B",
         "secondary": "#F9A800",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -248,6 +275,7 @@
       "colors": {
         "primary": "#E4002B",
         "secondary": "#FFFFFF",
+        "tertiary": "#1A1A1A",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -257,6 +285,7 @@
       "colors": {
         "primary": "#0033A0",
         "secondary": "#FFFFFF",
+        "tertiary": "#8DC8E8",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -266,6 +295,7 @@
       "colors": {
         "primary": "#E60012",
         "secondary": "#FFFFFF",
+        "tertiary": "#1A1A1A",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -275,6 +305,7 @@
       "colors": {
         "primary": "#004FAA",
         "secondary": "#FFFFFF",
+        "tertiary": "#8EC6E9",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -284,6 +315,7 @@
       "colors": {
         "primary": "#073590",
         "secondary": "#F1C933",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -293,6 +325,7 @@
       "colors": {
         "primary": "#FF6600",
         "secondary": "#FFFFFF",
+        "tertiary": "#262626",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -302,6 +335,7 @@
       "colors": {
         "primary": "#042454",
         "secondary": "#DA041C",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -311,6 +345,7 @@
       "colors": {
         "primary": "#F4142C",
         "secondary": "#FFFFFF",
+        "tertiary": "#1A1A1A",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -320,6 +355,7 @@
       "colors": {
         "primary": "#a38552",
         "secondary": "#FFFFFF",
+        "tertiary": "#0E2A47",
         "text": "#000000"
       },
       "logo": "logo_black.png"
@@ -329,6 +365,7 @@
       "colors": {
         "primary": "#6b6b6b",
         "secondary": "#64043C",
+        "tertiary": "#FFFFFF",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -338,6 +375,7 @@
       "colors": {
         "primary": "#012b4b",
         "secondary": "#ff0000",
+        "tertiary": "#3FCF6E",
         "text": "#15ff00"
       },
       "logo": "logo_black.png"
@@ -347,6 +385,7 @@
       "colors": {
         "primary": "#0026fd",
         "secondary": "#e60012",
+        "tertiary": "#F2C75C",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -356,6 +395,7 @@
       "colors": {
         "primary": "#0e2563",
         "secondary": "#ffa600",
+        "tertiary": "#6CB3E4",
         "text": "#FFFFFF"
       },
       "logo": "logo.png"
@@ -365,6 +405,7 @@
       "colors": {
         "primary": "#1b1d80",
         "secondary": "#df0011",
+        "tertiary": "#D9DDE3",
         "text": "#FFFFFF"
       },
       "logo": "logo_white.png"
@@ -374,6 +415,7 @@
       "colors": {
         "primary": "#fecc00",
         "secondary": "#d50029",
+        "tertiary": "#2B2B2B",
         "text": "#3a3a3a"
       },
       "logo": "logo_white.png"
@@ -383,6 +425,7 @@
       "colors": {
         "primary": "#009739",
         "secondary": "#FEDD00",
+        "tertiary": "#FFFFFF",
         "text": "#012169"
       },
       "logo": "logo.png"
@@ -392,6 +435,7 @@
       "colors": {
         "primary": "#040c3e",
         "secondary": "#ff0000",
+        "tertiary": "#C0C7CE",
         "text": "#FFFFFF"
       },
       "logo": "logo.png"
@@ -401,6 +445,7 @@
       "colors": {
         "primary": "#078b00",
         "secondary": "#ffb000",
+        "tertiary": "#FFFFFF",
         "text": "#000000"
       },
       "logo": "logo.png"
@@ -410,6 +455,7 @@
       "colors": {
         "primary": "#5c5c5c",
         "secondary": "#00a2ff",
+        "tertiary": "#FFFFFF",
         "text": "#ffffff"
       },
       "logo": "logo.png"
@@ -419,6 +465,7 @@
       "colors": {
         "primary": "#ffffff",
         "secondary": "#e30a17",
+        "tertiary": "#006233",
         "text": "#006400"
       },
       "logo": "logo.png"
@@ -428,6 +475,7 @@
       "colors": {
         "primary": "#f18641",
         "secondary": "#6a6b6d",
+        "tertiary": "#23262B",
         "text": "#FFFFFF"
       },
       "logo": "logo.png"

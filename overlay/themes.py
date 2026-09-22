@@ -13,6 +13,22 @@ _themes_json_cache: Dict[str, Any] = {}
 _themes_json_mtime: Optional[float] = None
 
 
+def _normalize_colors(colors: Any) -> Dict[str, str]:
+    """primary = background, secondary = labels/callsign, tertiary = values.
+
+    Themes without a tertiary colour fall back to the text colour, which is
+    what the values were rendered in before.
+    """
+    c = colors if isinstance(colors, dict) else {}
+    text = c.get("text", "#ffffff")
+    return {
+        "primary": c.get("primary", "#ffffff"),
+        "secondary": c.get("secondary", "#999999"),
+        "tertiary": c.get("tertiary", text),
+        "text": text,
+    }
+
+
 def _read_json(p: Path) -> Dict[str, Any]:
     try:
         return json.loads(p.read_text(encoding="utf-8"))
@@ -39,7 +55,7 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
             icao = "default"
             chosen = default_cfg if isinstance(default_cfg, dict) else {}
 
-        colors = chosen.get("colors") if isinstance(chosen.get("colors"), dict) else {}
+        colors = _normalize_colors(chosen.get("colors"))
         logo = chosen.get("logo")
         if isinstance(logo, dict):
             logo = logo.get("light") or logo.get("dark")
@@ -47,11 +63,7 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
         return {
             "icao": icao,
             "name": chosen.get("name", icao),
-            "colors": {
-                "primary": colors.get("primary", "#ffffff"),
-                "secondary": colors.get("secondary", "#999999"),
-                "text": colors.get("text", "#ffffff"),
-            },
+            "colors": colors,
             "logo": logo,
         }
 
@@ -65,7 +77,7 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
     if not theme_file.exists():
         return {
             "icao": "default", "name": "Default",
-            "colors": {"primary": "#ffffff", "secondary": "#999999", "text": "#ffffff"},
+            "colors": _normalize_colors({}),
             "logo": None,
         }
 
@@ -78,10 +90,11 @@ def load_theme_for_icao(icao: str) -> Dict[str, Any]:
     result = {
         "icao": icao,
         "name": theme.get("name", icao),
-        "colors": theme.get("colors", {
-            "primary": theme.get("primary", "#ffffff"),
-            "secondary": theme.get("secondary", "#999999"),
-            "text": theme.get("text", "#ffffff"),
+        "colors": _normalize_colors(theme.get("colors") or {
+            "primary": theme.get("primary"),
+            "secondary": theme.get("secondary"),
+            "tertiary": theme.get("tertiary"),
+            "text": theme.get("text"),
         }),
         "logo": theme.get("logo"),
     }
