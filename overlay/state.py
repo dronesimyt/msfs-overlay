@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from .config import CONFIG, get_cfg
+from .config import get_cfg_int
 from .nav import eta_zulu_from_hours, haversine_nm, hours_to_hhmm, rad_to_deg, to_float, track_dtg_nm
 from .simbrief import (
     build_route_points_from_simbrief,
@@ -11,8 +11,8 @@ from .simbrief import (
     normalize_icao,
     resolve_airline_icao,
 )
-from .simconnect import ensure_connection, get_aircraft_icao, safe_get
-from .tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount
+from .simconnect import ensure_connection, get_aircraft_icao, report_data, safe_get
+from .tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount_cached
 
 
 def get_state() -> Dict[str, Any]:
@@ -31,6 +31,11 @@ def get_state() -> Dict[str, Any]:
     wind_spd_kt = safe_get(aq_obj, "AMBIENT_WIND_VELOCITY")
     cur_lat = to_float(safe_get(aq_obj, "PLANE_LATITUDE"))
     cur_lon = to_float(safe_get(aq_obj, "PLANE_LONGITUDE"))
+    if aq_obj is not None:
+        has_data = alt is not None or cur_lat is not None
+        report_data(has_data)
+        if not has_data:
+            sim_ok, sim_msg = False, "[SimConnect] Connected, but no data (is a flight loaded?)"
 
     ac_icao_live = get_aircraft_icao(aq_obj)
     if ac_icao_live in {"TEXT", "STRING", "NONE", "NULL", ""}:
@@ -61,7 +66,7 @@ def get_state() -> Dict[str, Any]:
     ete_hhmm = hours_to_hhmm(ete_h)
     eta_z = eta_zulu_from_hours(ete_h)
 
-    tok = get_tokcount()
+    tok = get_tokcount_cached()
 
     state = {
         "simconnect_ok": sim_ok,
@@ -87,8 +92,8 @@ def get_state() -> Dict[str, Any]:
         "airline_source": airline_source,
         "aircraft_icao": aircraft_icao,
         "aircraft_icao_source": aircraft_icao_source,
-        "tiktok_user_id": CONFIG.get("tiktok_user_id"),
-        "tiktok_followers_goal": int(get_cfg("tiktok_followers_goal", 1000)),
+        "tiktok_user_id": TIKTOK_USER_ID,
+        "tiktok_followers_goal": get_cfg_int("tiktok_followers_goal", 1000),
         "tokcount_refresh_seconds": TOKCOUNT_REFRESH_SECONDS,
         "tokcount_error": tok.get("error"),
         "tokcount_raw": {
@@ -97,6 +102,7 @@ def get_state() -> Dict[str, Any]:
             "following": tok.get("following"),
             "videos": tok.get("videos"),
             "ts": tok.get("ts"),
+            "stale": tok.get("stale"),
             "error": tok.get("error"),
         },
     }

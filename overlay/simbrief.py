@@ -1,4 +1,3 @@
-import os
 import re
 import threading
 import time
@@ -6,10 +5,11 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 
-from .config import CONFIG
+from .config import get_cfg, get_cfg_int
 from .nav import to_float
 
-SIMBRIEF_CACHE_SECONDS = int(CONFIG.get("simbrief_cache_seconds", 60))
+SIMBRIEF_CACHE_SECONDS = get_cfg_int("simbrief_cache_seconds", 60)
+SIMBRIEF_RETRY_SECONDS = 15
 
 _simbrief_cache = {"ts": 0.0, "data": None, "error": None}
 _simbrief_lock = threading.Lock()
@@ -85,8 +85,8 @@ def normalize_aircraft_icao(v: Any) -> Optional[str]:
 # -----------------------------
 
 def _get_identity() -> Tuple[Optional[str], Optional[str]]:
-    username = CONFIG.get("simbrief_username") or os.getenv("SIMBRIEF_USERNAME")
-    userid = CONFIG.get("simbrief_userid") or os.getenv("SIMBRIEF_USERID")
+    username = get_cfg("simbrief_username")
+    userid = get_cfg("simbrief_userid")
     return username, userid
 
 
@@ -110,11 +110,16 @@ def _fetch_latest():
 def get_simbrief_cached():
     now = time.time()
     with _simbrief_lock:
-        if _simbrief_cache["data"] is not None and (now - _simbrief_cache["ts"]) < SIMBRIEF_CACHE_SECONDS:
+        # Failed fetches are retried sooner, but not on every overlay poll.
+        max_age = SIMBRIEF_CACHE_SECONDS if _simbrief_cache["error"] is None else SIMBRIEF_RETRY_SECONDS
+        if _simbrief_cache["ts"] and (now - _simbrief_cache["ts"]) < max_age:
             return _simbrief_cache["data"], _simbrief_cache["error"]
 
     data, err = _fetch_latest()
     with _simbrief_lock:
+        if data is None:
+            # Keep the last good flight plan on transient errors.
+            data = _simbrief_cache["data"]
         _simbrief_cache.update({"ts": now, "data": data, "error": err})
     return data, err
 

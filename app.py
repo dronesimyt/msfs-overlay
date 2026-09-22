@@ -10,6 +10,20 @@ from overlay.themes import THEMES_DIR, load_theme_for_icao
 
 app = Flask(__name__)
 
+_LOCAL_HOSTS = {"127.0.0.1", "localhost", "[::1]"}
+_PROXY_HEADERS = ("CF-Connecting-IP", "X-Forwarded-For", "X-Real-IP", "Forwarded")
+
+
+def _is_local_request() -> bool:
+    # The Cloudflare tunnel connects from 127.0.0.1 too, so the remote address
+    # alone is not enough: tunneled requests carry proxy headers and the public host.
+    if request.remote_addr not in {"127.0.0.1", "::1"}:
+        return False
+    if any(h in request.headers for h in _PROXY_HEADERS):
+        return False
+    host = (request.host or "").rsplit(":", 1)[0].lower()
+    return host in _LOCAL_HOSTS
+
 
 @app.get("/")
 def overlay():
@@ -23,7 +37,7 @@ def data():
 
 @app.post("/shutdown")
 def shutdown():
-    if request.remote_addr != "127.0.0.1":
+    if not _is_local_request():
         return jsonify({"error": "forbidden"}), 403
     threading.Timer(0.1, lambda: os._exit(0)).start()
     return jsonify({"ok": True})
@@ -31,11 +45,11 @@ def shutdown():
 
 @app.get("/debug")
 def debug():
-    if request.remote_addr != "127.0.0.1":
+    if not _is_local_request():
         return jsonify({"error": "forbidden"}), 403
-    from overlay.tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount
+    from overlay.tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount_cached
     from overlay.simconnect import ensure_connection
-    tok = get_tokcount()
+    tok = get_tokcount_cached()
     _, sim_ok, sim_msg = ensure_connection()
     return jsonify({
         "simconnect_ok": sim_ok,
@@ -92,7 +106,10 @@ def theme():
 
 @app.get("/themes/<icao>/<path:filename>")
 def themes_static(icao: str, filename: str):
-    safe_icao = "".join(ch for ch in icao.upper() if ch.isalnum())[:3] or "default"
+    if icao.lower() == "default":
+        safe_icao = "default"
+    else:
+        safe_icao = "".join(ch for ch in icao.upper() if ch.isalnum())[:3] or "default"
     resp = send_from_directory(THEMES_DIR / safe_icao, filename)
     resp.headers["Cache-Control"] = "no-cache, must-revalidate"
     return resp
@@ -112,4 +129,11 @@ if __name__ == "__main__":
         ],
     )
 
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    try:
+        from waitress import serve
+    except ImportError:
+        logging.warning("waitress not installed, falling back to the Flask dev server (pip install -r requirements.txt)")
+        app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
+    else:
+        logging.info("Serving on http://127.0.0.1:5000 (waitress)")
+        serve(app, host="127.0.0.1", port=5000, threads=8)

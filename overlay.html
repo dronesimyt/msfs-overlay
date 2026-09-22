@@ -536,11 +536,8 @@
           el("dep").textContent = safeStr(sb.dep_icao, "----");
           el("arr").textContent = safeStr(sb.arr_icao, "----");
 
-          // aircraft
-          const aircraftFromSb = sb.aircraft_icao;
-          const aircraftFromSim = d.aircraft_icao;
-          const aircraft =
-            aircraftFromSim && aircraftFromSim !== "TEXT" ? aircraftFromSim : aircraftFromSb;
+          // aircraft: backend already resolves SimBrief first, then SimConnect
+          const aircraft = d.aircraft_icao || sb.aircraft_icao;
           el("aircraft").textContent = safeStr(aircraft, "----");
 
           // Row 1
@@ -597,7 +594,7 @@
       setInterval(loadTheme, 15000);
 
       tick();
-      setInterval(tick, 15000);
+      setInterval(tick, 1000);
     </script>
   </body>
 </html>

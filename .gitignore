@@ -6,3 +6,5 @@ overlay.log
 __pycache__/
 *.pyc
 *.pyo
+tokcount_cache.json
+tokcount_cache.json.tmp
