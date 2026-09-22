@@ -102,14 +102,15 @@ Want to show your TikTok followers? Add these to `config.json`:
 
 ```json
 {
+  "tiktok_username": "your_tiktok_name_without_at",
   "tiktok_user_id": "your_tiktok_user_id",
   "tiktok_followers_goal": 500
 }
 ```
 
-To find your TikTok user ID, visit your profile page and copy the number from the URL.
+`tiktok_username` is your @name without the @, `tiktok_user_id` is the number you find on your profile page URL (only needed for the tokcount fallback).
 
-The follower count comes from the unofficial tokcount.com API and may stop working at any time. The last known value is kept, and `"tokcount_enabled": false` turns it off.
+The count is read from your public TikTok profile page, with tokcount.com as a fallback. Both are unofficial and may stop working at any time, so the last known value is cached and shown dimmed once it gets old. `"followers_enabled": false` turns the whole thing off, `"followers_refresh_seconds"` sets how often it is refreshed (default 60).
 
 ## Having Issues?
 

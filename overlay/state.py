@@ -1,6 +1,7 @@
 from typing import Any, Dict
 
 from .config import get_cfg_int
+from .followers import get_followers_cached
 from .nav import eta_zulu_from_hours, haversine_nm, hours_to_hhmm, rad_to_deg, to_float, track_dtg_nm
 from .simbrief import (
     build_route_points_from_simbrief,
@@ -12,7 +13,6 @@ from .simbrief import (
     resolve_airline_icao,
 )
 from .simconnect import ensure_connection, get_aircraft_icao, report_data, safe_get
-from .tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount_cached
 
 
 def get_state() -> Dict[str, Any]:
@@ -66,7 +66,7 @@ def get_state() -> Dict[str, Any]:
     ete_hhmm = hours_to_hhmm(ete_h)
     eta_z = eta_zulu_from_hours(ete_h)
 
-    tok = get_tokcount_cached()
+    fol = get_followers_cached()
 
     state = {
         "simconnect_ok": sim_ok,
@@ -92,18 +92,16 @@ def get_state() -> Dict[str, Any]:
         "airline_source": airline_source,
         "aircraft_icao": aircraft_icao,
         "aircraft_icao_source": aircraft_icao_source,
-        "tiktok_user_id": TIKTOK_USER_ID,
-        "tiktok_followers_goal": get_cfg_int("tiktok_followers_goal", 1000),
-        "tokcount_refresh_seconds": TOKCOUNT_REFRESH_SECONDS,
-        "tokcount_error": tok.get("error"),
-        "tokcount_raw": {
-            "followers": tok.get("followers"),
-            "likes": tok.get("likes"),
-            "following": tok.get("following"),
-            "videos": tok.get("videos"),
-            "ts": tok.get("ts"),
-            "stale": tok.get("stale"),
-            "error": tok.get("error"),
+        "followers": {
+            "count": fol.get("followers"),
+            "goal": get_cfg_int("tiktok_followers_goal", 1000),
+            "likes": fol.get("likes"),
+            "following": fol.get("following"),
+            "videos": fol.get("videos"),
+            "source": fol.get("source"),
+            "ts": fol.get("ts"),
+            "stale": fol.get("stale"),
+            "error": fol.get("error"),
         },
     }
 

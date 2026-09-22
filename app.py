@@ -47,17 +47,23 @@ def shutdown():
 def debug():
     if not _is_local_request():
         return jsonify({"error": "forbidden"}), 403
-    from overlay.tokcount import TIKTOK_USER_ID, TOKCOUNT_REFRESH_SECONDS, get_tokcount_cached
+    from overlay.followers import (
+        REFRESH_SECONDS,
+        TIKTOK_USER_ID,
+        TIKTOK_USERNAME,
+        get_followers_cached,
+    )
     from overlay.simconnect import ensure_connection
-    tok = get_tokcount_cached()
+    fol = get_followers_cached()
     _, sim_ok, sim_msg = ensure_connection()
     return jsonify({
         "simconnect_ok": sim_ok,
         "simconnect_msg": sim_msg,
+        "tiktok_username": TIKTOK_USERNAME,
         "tiktok_user_id": TIKTOK_USER_ID,
-        "tokcount_refresh_seconds": TOKCOUNT_REFRESH_SECONDS,
-        "tokcount_error": tok.get("error"),
-        "tokcount_raw": tok,
+        "followers_refresh_seconds": REFRESH_SECONDS,
+        "followers_error": fol.get("error"),
+        "followers_raw": fol,
     })
 
 

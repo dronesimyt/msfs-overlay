@@ -3,10 +3,11 @@
   "simbrief_userid": "123456",
   "simbrief_cache_seconds": 60,
 
+  "tiktok_username": "your_tiktok_name_without_at",
   "tiktok_user_id": "",
   "tiktok_followers_goal": 1000,
-  "tokcount_enabled": true,
-  "tokcount_refresh_seconds": 15,
+  "followers_enabled": true,
+  "followers_refresh_seconds": 60,
 
   "themes_dir": "./themes"
 }

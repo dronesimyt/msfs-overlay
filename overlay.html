@@ -302,6 +302,7 @@
       } */
 
       .goalText {
+        color: var(--secondary);
         font-weight: 900;
         opacity: 0.92;
         overflow: hidden;
@@ -309,6 +310,7 @@
       }
 
       .goalRight {
+        color: var(--tertiary);
         font-weight: 900;
         opacity: 0.92;
         flex: 0 0 auto;
@@ -326,7 +328,7 @@
         height: 100%;
         width: 0%;
         border-radius: 999px;
-        background: var(--secondary);
+        background: var(--tertiary);
         transition: width 0.35s ease;
       }
 
@@ -470,7 +472,7 @@
       </div>
 
       <!-- GOAL (BOTTOM ROW INSIDE MAIN BAR) -->
-      <!-- <div class="goalWrap" id="goalBar" style="display: none">
+      <div class="goalWrap" id="goalBar" style="display: none">
         <div class="goalInner">
           <div class="goalLeft">
             <span class="goalText" id="goalText">Follower Goal</span>
@@ -480,7 +482,7 @@
         <div class="goalTrack">
           <div class="goalFill" id="goalFill"></div>
         </div>
-      </div> -->
+      </div>
     </div>
 
     <script>
@@ -576,23 +578,27 @@
           el("status").textContent = status;
           el("status").classList.toggle("warn", !!status);
 
-          // --- TikTok followers goal bar (TokCount) ---
+          // --- TikTok follower goal bar ---
           const goalBar = el("goalBar");
           const goalFill = el("goalFill");
           const goalNums = el("goalNums");
           const goalText = el("goalText");
 
-          const followers = toNum(d.tiktok_followers_current) ?? toNum(d?.tokcount_raw?.followers);
-          const goal = toNum(d.tiktok_followers_goal) ?? toNum(d?.tiktok_followers_goal) ?? 1000;
+          const followers = toNum(d?.followers?.count);
+          const goal = toNum(d?.followers?.goal) ?? 1000;
 
-          if (followers != null && goal != null) {
+          if (followers != null && goal > 0) {
             goalBar.style.display = "block";
 
-            const pct = goal > 0 ? Math.max(0, Math.min(100, (followers / goal) * 100)) : 0;
+            const pct = Math.max(0, Math.min(100, (followers / goal) * 100));
             goalFill.style.width = pct.toFixed(1) + "%";
 
-            goalNums.textContent = `${followers} / ${goal}`;
+            goalNums.textContent = `${followers.toLocaleString("de-DE")} / ${goal.toLocaleString(
+              "de-DE"
+            )}`;
             goalText.textContent = `FOLLOWER GOAL (${pct.toFixed(0)}%)`;
+            // Dim the bar when the number is old, so it never looks live when it is not.
+            goalBar.style.opacity = d?.followers?.stale ? "0.55" : "1";
           } else {
             goalBar.style.display = "none";
           }
